@@ -9,3 +9,54 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id          Int    @id @default(autoincrement())
+  email       String @unique
+  password    String
+
+  @@map("users")
+}
+
+model Character {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  level       Int
+  password    String
+  classId     Int
+  raceId      Int
+  mapId       Int
+
+  class       Class   @relation(fields: [classId], references: [id])
+  race        Race    @relation(fields: [raceId], references: [id] )
+  map         Map     @relation(fields: [mapId], references: [id])
+
+  @@map("characters")
+}
+
+model Class {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  characters  Character[]
+
+  @@map("classes")
+}
+
+model Race {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  characters  Character[]
+
+  @@map("races")
+}
+
+model Map {
+  id          Int    @id @default(autoincrement())
+  email       String @unique
+  password    String
+  characters  Character[]
+
+  @@map("maps")
+}
