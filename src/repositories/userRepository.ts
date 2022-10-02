@@ -8,3 +8,9 @@ export async function insertUser(user: CreateUserData) {
         data: user
     });
 }
+
+export async function findUserByEmail(email: string){
+    return prisma.user.findFirst({
+        where: { email }
+    });
+}
